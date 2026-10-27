@@ -1,0 +1,128 @@
+
+/* 
+   VisionDesk AI - Professional Dashboard Palette
+ */
+
+:root {
+
+    /* Headings and body text */
+    --color-heading: #F1F5F9;
+    --color-text: #CBD5E1;
+
+    
+}
+
+/* Navigation section */
+
+div[data-testid="stMarkdownContainer"] h3 > span[data-heading-text] {
+    color: #A5B4FC !important;
+    font-size: 22px;
+    font-weight: 700;
+    font-style: italic;
+}
+
+h3#vision-desk-ai > span[data-heading-text] {
+    color: var(--color-heading) !important;
+    font-style: italic ;
+    font-size: 30px;
+    font-weight: 800;
+}
+
+
+/*bordered container's layout wrapper */
+div[data-testid="stLayoutWrapper"]:has(
+    > div[data-testid="stVerticalBlock"][data-test-wrap="false"]
+) {
+    background-color: #0D2A43 !important;
+    border: 2px solid #2F80ED !important;
+    border-radius: 16px !important;
+    padding: 20px !important;
+    box-sizing: border-box !important;
+}
+
+/* For transparent */
+div[data-testid="stLayoutWrapper"]:has(
+    > div[data-testid="stVerticalBlock"][data-test-wrap="false"]
+) > div {
+    background-color: transparent !important;
+}
+
+/* Heading Styling of home page*/
+
+
+/* VisionDesk AI main title */
+h1#vision-desk-ai span[data-heading-text] {
+    background: linear-gradient(
+        90deg,
+        #00DBDE 0%,
+        #7B61FF 45%,
+        #FF61D2 75%,
+        #FFD166 100%
+    );
+
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-shadow: none;
+}
+
+/* For smooth appearance */
+h1#vision-desk-ai {
+    font-size: 46px;
+    line-height: 1.2;
+}
+
+
+/* Home page subtitle */
+div[data-testid="stCaptionContainer"] p {
+    font-size: 18px !important;
+    font-weight: 500 !important;
+    color: var(--color-text) !important;
+    letter-spacing: 1px !important;
+    line-height: 1.6 !important;
+    margin-top: 4px !important;
+}
+
+/* Secondary headings styling */
+
+h3#safety-overview > span[data-heading-text] {
+    color: var(--color-heading) !important;
+    font-style: italic ;
+}
+
+h3#quick-actions > span[data-heading-text] {
+    color: var(--color-heading) !important;
+    font-style: italic ;
+}
+
+h3#how-vision-desk-ai-works > span[data-heading-text] {
+    color: var(--color-heading) !important;
+    font-style: italic ;
+}
+
+h3#system-status > span[data-heading-text] {
+    color: var(--color-heading) !important;
+    font-style: italic ;
+}
+
+
+/* PPE-Detection */
+
+h2#ppe-detection > span[data-heading-text] {
+    color: #f5f7fa;
+    font-size: 46px;
+    font-weight: 800;
+    
+}
+
+
+/* Ask AI */
+
+div[data-testid="stAlertContainer"] {
+    background-color: #102A43 !important;
+    border-radius: 12px;
+    border: 1px solid #29445F;
+}

@@ -31,9 +31,27 @@ from documents import process_file
 from llm import MODEL, has_key
 from report import build_pdf, write_summary
 
+# css loading check
+
+from pathlib import Path
+
+
+css_path = Path(__file__).parent / "static" / "style.css"
+
+css = css_path.read_text(encoding="utf-8")
+
+st.markdown(
+    f"<style>{css}</style>",
+    unsafe_allow_html=True
+)
+
+
+
+
+
 st.set_page_config(
     page_title="AI-Powered Visual Data Analytics and Business Intelligence Platform",
-    page_icon="🦺",
+    # page_icon="",
     layout="wide",
 )
 
@@ -81,7 +99,10 @@ with st.sidebar:
     # BRAND
     # ─────────────────────────────────────────
 
-    st.title("🦺 VisionDesk AI")
+    st.markdown(
+    '<h3 id="vision-desk-ai">VisionDesk AI</h3>',
+    unsafe_allow_html=True
+    )
     st.caption("Multimodal Workplace Safety")
 
     st.divider()
@@ -90,17 +111,17 @@ with st.sidebar:
     # NAVIGATION
     # ─────────────────────────────────────────
 
-    st.markdown("### 🧭 Navigation")
+    st.markdown("### Navigation")
 
     page = st.radio(
         "Go to",
         [
-            "🏠 Home",
-            "👷 PPE Detection",
-            "📄 Documents",
-            "🤖 Ask AI",
-            "📊 Dashboard",
-            "📋 Report"
+            "Home",
+            "PPE Detection",
+            "Documents",
+            "Ask AI",
+            "Dashboard",
+            "Report"
         ],
         label_visibility="collapsed"
     )
@@ -111,21 +132,21 @@ with st.sidebar:
     # SYSTEM STATUS
     # ─────────────────────────────────────────
 
-    st.markdown("### ⚙️ System Status")
+    st.markdown("### System Status")
 
     with st.container(border=True):
 
         if model:
-            st.success("🟢 PPE Model Ready")
+            st.success("PPE Model Ready")
         else:
-            st.error("🔴 PPE Model Missing")
+            st.error("PPE Model Missing")
 
         if has_key():
-            st.success("🟢 Gemini Ready")
+            st.success("Gemini Ready")
         else:
-            st.warning("🟡 Gemini API Key Missing")
+            st.warning("Gemini API Key Missing")
 
-        st.info(f"📚 {kb.total_chunks()} knowledge chunks")
+        st.info(f"{kb.total_chunks()} knowledge chunks")
 
     st.divider()
 
@@ -136,9 +157,9 @@ with st.sidebar:
 # 🏠 HOME
 # ══════════════════════════════════════════════════════════
 
-if page == "🏠 Home":
+if page == "Home":
 
-    st.title("🦺 VisionDesk AI")
+    st.title("VisionDesk AI")
     st.caption("Multimodal Workplace Safety Intelligence")
 
     with st.container(border=True):
@@ -157,21 +178,21 @@ if page == "🏠 Home":
     scans = storage.load_scans()
     k = storage.kpis(scans)
 
-    st.subheader("📊 Safety Overview")
+    st.subheader("Safety Overview")
 
     c1, c2, c3, c4 = st.columns(4)
 
     with c1:
         with st.container(border=True):
             st.metric(
-                "👷 Inspections",
+                "Inspections",
                 k["scans"]
             )
 
     with c2:
         with st.container(border=True):
             st.metric(
-                "🟢 Compliance",
+                "Compliance",
                 f"{k['compliance']}%"
                 if k["compliance"] is not None else "0%"
             )
@@ -179,14 +200,14 @@ if page == "🏠 Home":
     with c3:
         with st.container(border=True):
             st.metric(
-                "⚠️ Violations",
+                "Violations",
                 k["violations"]
             )
 
     with c4:
         with st.container(border=True):
             st.metric(
-                "📚 Knowledge",
+                "Knowledge",
                 kb.total_chunks()
             )
 
@@ -196,14 +217,13 @@ if page == "🏠 Home":
 
     st.divider()
 
-    st.subheader("🚀 Quick Actions")
+    st.subheader("Quick Actions")
 
     a, b, c = st.columns(3)
 
     with a:
         with st.container(border=True):
 
-            st.markdown("## 👷")
             st.subheader("PPE Detection")
 
             st.write(
@@ -212,14 +232,13 @@ if page == "🏠 Home":
             )
 
             st.button(
-                "🔍 Analyze PPE",
+                "Analyze PPE",
                 use_container_width=True
             )
 
     with b:
         with st.container(border=True):
 
-            st.markdown("## 📄")
             st.subheader("Safety Documents")
 
             st.write(
@@ -228,23 +247,21 @@ if page == "🏠 Home":
             )
 
             st.button(
-                "📚 Open Documents",
+                "Open Documents",
                 use_container_width=True
             )
 
     with c:
         with st.container(border=True):
-
-            st.markdown("## 🤖")
+            
             st.subheader("Ask Safety AI")
-
             st.write(
                 "Ask questions using your safety documents "
                 "and latest PPE detection."
             )
 
             st.button(
-                "💬 Ask AI",
+                "Ask AI",
                 use_container_width=True
             )
 
@@ -255,46 +272,42 @@ if page == "🏠 Home":
 
     st.divider()
 
-    st.subheader("🔄 How VisionDesk AI Works")
+    st.subheader("How VisionDesk AI Works")
 
     p1, p2, p3, p4 = st.columns(4)
 
     with p1:
         with st.container(border=True):
-            st.markdown("## 1️⃣")
             st.subheader("Detect")
-            st.caption("YOLO detects workers and PPE.")
+            st.write("YOLO detects workers and PPE.")
 
     with p2:
         with st.container(border=True):
-            st.markdown("## 2️⃣")
             st.subheader("Retrieve")
-            st.caption("Relevant safety rules are retrieved.")
+            st.write("Relevant safety rules are retrieved.")
 
     with p3:
         with st.container(border=True):
-            st.markdown("## 3️⃣")
             st.subheader("Ask AI")
-            st.caption("Gemini answers using retrieved information.")
+            st.write("Gemini answers using retrieved information.")
 
     with p4:
         with st.container(border=True):
-            st.markdown("## 4️⃣")
             st.subheader("Report")
-            st.caption("Inspection results become safety reports.")
+            st.write("Inspection results become safety reports.")
     # ─────────────────────────────────────────────────────
     # SYSTEM STATUS
     # ─────────────────────────────────────────────────────
 
     st.divider()
 
-    st.subheader("🔧 System Status")
+    st.subheader("System Status")
 
     s1, s2, s3 = st.columns(3)
 
     with s1:
         with st.container(border=True):
-            st.markdown("### 👷 PPE Model")
+            st.markdown("### PPE Model")
 
             if model:
                 st.success("Ready")
@@ -303,7 +316,7 @@ if page == "🏠 Home":
 
     with s2:
         with st.container(border=True):
-            st.markdown("### 🤖 Gemini AI")
+            st.markdown("### Gemini AI")
 
             if has_key():
                 st.success("Connected")
@@ -312,7 +325,7 @@ if page == "🏠 Home":
 
     with s3:
         with st.container(border=True):
-            st.markdown("### 📚 Knowledge Base")
+            st.markdown("### Knowledge Base")
 
             st.metric(
                 "Chunks",
@@ -321,15 +334,15 @@ if page == "🏠 Home":
 # ══════════════════════════════════════════════════════════
 # 👷 PPE DETECTION  (Milestone 1)
 # ══════════════════════════════════════════════════════════
-elif page == "👷 PPE Detection":
-    st.header("👷 PPE Detection")
+elif page == "PPE Detection":
+    st.header("PPE Detection")
     if not model:
         st.error("best.pt not found in the project folder.")
         st.stop()
 
     with st.container(border=True):
 
-        st.subheader("⚙️ Detection Settings")
+        st.subheader("Detection Settings")
 
         c1, c2 = st.columns(2)
 
@@ -384,7 +397,7 @@ elif page == "👷 PPE Detection":
     last = st.session_state.get("last")
     if last:
         st.divider()
-        st.subheader("🔍 Detection Result")
+        st.subheader("Detection Result")
         col1, col2 = st.columns([3, 2])
         with col1:
             if last["image"] is not None:
@@ -399,66 +412,66 @@ elif page == "👷 PPE Detection":
                     r = last["result"]
 
                     if r["compliant"]:
-                        st.success("✅ COMPLIANT - no violations")
+                        st.success("COMPLIANT - no violations")
                     else:
                         st.error(
-                            "🚨 VIOLATIONS: "
+                            "VIOLATIONS: "
                             + ", ".join(sorted(set(r["violations"])))
                         )
 
-                    st.subheader("📊 Detection Summary")
+                    st.subheader("Detection Summary")
 
                     m1, m2, m3 = st.columns(3)
 
                     with m1:
                         st.metric(
-                            "🔎 Objects Detected",
+                            "Objects Detected",
                             len(last["dets"])
                         )
 
                     with m2:
                         st.metric(
-                            "⚠️ Violations",
+                            "Violations",
                             len(r["violations"])
                         )
 
                     with m3:
                         st.metric(
-                            "🦺 PPE Categories",
+                            "PPE Categories",
                             len(r["counts"])
                         )
 
                     st.divider()
 
-                    st.subheader("🧾 Detection Details")
+                    st.subheader("Detection Details")
 
                     for item, count in r["counts"].items():
                         st.write(f"**{item}** — {count}")
 
                     if r["compliant"]:
                         st.success(
-                            "🟢 COMPLIANT — No PPE violations detected."
+                            "COMPLIANT — No PPE violations detected."
                         )
                     else:
-                        st.error("🔴 SAFETY VIOLATIONS DETECTED")
+                        st.error("SAFETY VIOLATIONS DETECTED")
 
                         for violation in sorted(set(r["violations"])):
-                            st.warning(f"⚠️ {violation}")
+                            st.warning(f"{violation}")
 
-                    st.caption("💡 This result is available in Ask AI.")
+                    st.caption("This result is available in Ask AI.")
 
 # ══════════════════════════════════════════════════════════
 # 📄 DOCUMENTS  (Milestone 2)
 # ══════════════════════════════════════════════════════════
-elif page == "📄 Documents":
-    st.title("📄 Safety Document Center")
+elif page == "Documents":
+    st.title("Safety Document Center")
 
     st.info(
         "Upload safety manuals, inspection reports or incident reports. "
         "The documents become searchable by the AI."
     )
 
-    st.subheader("📤 Upload Documents")
+    st.subheader("Upload Documents")
     files = st.file_uploader(
         "Upload manuals / inspection or incident reports",
         type=["pdf", "txt", "docx"],
@@ -473,8 +486,7 @@ elif page == "📄 Documents":
             else:
                 st.warning(f"{f.name}: no text found (scanned PDF?)")
     st.divider()
-    # st.subheader("📚 Knowledge Base")
-    st.subheader("📚 Documents in the knowledge base")
+    st.subheader("Documents in the knowledge base")
     docs = kb.list_documents()
     if docs:
         st.table([{"document": name, "chunks": n} for name, n in docs.items()])
@@ -482,8 +494,7 @@ elif page == "📄 Documents":
         st.info("No documents yet.")
 
     st.divider()
-    st.subheader("🔍 Search Safety Documents")
-    # st.subheader("🔍 Test search")
+    st.subheader("Search Safety Documents")
     q = st.text_input("Search", placeholder="When must goggles be worn?")
     if q:
         for r in kb.search(q):
@@ -495,8 +506,8 @@ elif page == "📄 Documents":
 # ══════════════════════════════════════════════════════════
 # 🤖 ASK AI  (Milestone 3 - LangGraph agent)
 # ══════════════════════════════════════════════════════════
-elif page == "🤖 Ask AI":
-    st.title("🤖 Ask Safety AI")
+elif page == "Ask AI":
+    st.title("Ask Safety AI")
 
     st.info(
         "Ask questions about PPE, workplace rules, safety procedures "
@@ -515,7 +526,7 @@ elif page == "🤖 Ask AI":
 
     st.divider()
 
-    st.subheader("💡 Example Questions")
+    st.subheader("Example Questions")
 
     q1, q2, q3 = st.columns(3)
 
@@ -536,14 +547,14 @@ elif page == "🤖 Ask AI":
 
     with st.container(border=True):
 
-        st.subheader("💬 Ask your question")
+        st.subheader("Ask your question")
 
         question = st.text_input(
             "Your question",
             placeholder="Is this worker compliant? Which rule applies?"
         )
 
-        if st.button("🤖 Ask Safety AI", type="primary") and question:
+        if st.button("Ask Safety AI", type="primary") and question:
             vis = last["result"] if (use_image and last) else None
             with st.spinner("Thinking..."):
                 out = ask_agent(
@@ -561,11 +572,11 @@ elif page == "🤖 Ask AI":
         
         with st.container(border=True):
 
-            st.subheader("🤖 AI Answer")
+            st.subheader("AI Answer")
 
             st.write(ans["answer"])
         
-        with st.expander("🔍 View AI reasoning / sources"):
+        with st.expander("View AI reasoning / sources"):
 
             st.write(
                 "**Steps:** " +
@@ -588,11 +599,11 @@ elif page == "🤖 Ask AI":
         if not st.session_state.get("voted"):
             st.write("Was this answer helpful?")
             c1, c2 = st.columns(2)
-            if c1.button("👍 Yes"):
+            if c1.button("Yes"):
                 storage.log_feedback(ans["question"], True)
                 st.session_state["voted"] = True
                 st.rerun()
-            if c2.button("👎 No"):
+            if c2.button("No"):
                 storage.log_feedback(ans["question"], False)
                 st.session_state["voted"] = True
                 st.rerun()
@@ -601,10 +612,10 @@ elif page == "🤖 Ask AI":
 
 
 # ══════════════════════════════════════════════════════════
-# 📊 DASHBOARD  (Milestone 4)
+# DASHBOARD  (Milestone 4)
 # ══════════════════════════════════════════════════════════
-elif page == "📊 Dashboard":
-    st.title("📊 Safety Analytics")
+elif page == "Dashboard":
+    st.title("Safety Analytics")
 
     st.info(
         "Monitor workplace inspections, PPE compliance, "
@@ -613,59 +624,59 @@ elif page == "📊 Dashboard":
     scans = storage.load_scans()
     k = storage.kpis(scans)
 
-    st.subheader("📈 Key Performance Indicators")
+    st.subheader("Key Performance Indicators")
 
     c1, c2, c3, c4 = st.columns(4)
 
     with c1:
         with st.container(border=True):
-            st.metric("👷 Inspections", k["scans"])
+            st.metric("Inspections", k["scans"])
 
     with c2:
         with st.container(border=True):
             st.metric(
-                "🟢 Compliance Rate",
+                "Compliance Rate",
                 f"{k['compliance']}%"
                 if k["compliance"] is not None else "-"
             )
 
     with c3:
         with st.container(border=True):
-            st.metric("⚠️ Total Violations", k["violations"])
+            st.metric("Total Violations", k["violations"])
 
     with c4:
         with st.container(border=True):
             st.metric(
-                "⭐ Satisfaction",
+                "Satisfaction",
                 f"{k['satisfaction']}%"
                 if k["satisfaction"] is not None else "-"
             )
 
 
     st.divider()
-    st.subheader("📊 Safety Trends")
+    st.subheader("Safety Trends")
 
     if scans.empty:
-        st.info("No data yet. Analyse some images in 👷 PPE Detection.")
+        st.info("No data yet. Analyse some images in PPE Detection.")
     else:
         left, right = st.columns(2)
 
         with left:
             with st.container(border=True):
 
-                st.subheader("⚠️ Violations by Type")
+                st.subheader("Violations by Type")
 
                 counts = storage.violation_counts(scans)
 
                 if len(counts):
                     st.bar_chart(counts)
                 else:
-                    st.success("No violations so far 🎉")
+                    st.success("No violations so far")
 
         with right:
             with st.container(border=True):
 
-                st.subheader("📅 Violations per Day")
+                st.subheader("Violations per Day")
 
                 daily = (
                     scans
@@ -680,23 +691,23 @@ elif page == "📊 Dashboard":
 
     with st.container(border=True):
 
-        st.subheader("📋 Inspection History")
+        st.subheader("Inspection History")
 
         st.dataframe(
             scans.sort_values("time", ascending=False),
             hide_index=True,
             use_container_width=True
         )
-    if st.button("🗑️ Clear history"):
+    if st.button("Clear history"):
         storage.clear_all()
         st.rerun()
 
 
 # ══════════════════════════════════════════════════════════
-# 📋 REPORT  (Milestone 4)
+# REPORT  (Milestone 4)
 # ══════════════════════════════════════════════════════════
-elif page == "📋 Report":
-    st.title("📋 Safety Compliance Report")
+elif page == "Report":
+    st.title("Safety Compliance Report")
 
     st.info(
         "Generate a professional report from your workplace "
@@ -719,25 +730,25 @@ elif page == "📋 Report":
     if rep:
         with st.container(border=True):
 
-            st.subheader("📝 Report Summary")
+            st.subheader("Report Summary")
 
             st.write(rep["summary"])
         st.download_button(
-            "⬇️ Download PDF",
+            "Download PDF",
             rep["pdf"],
             file_name="safety_compliance_report.pdf",
             mime="application/pdf",
         )
         st.divider()
 
-        st.subheader("📥 Download Report")
+        st.subheader("Download Report")
 
         d1, d2 = st.columns(2)
 
         with d1:
             with st.container(border=True):
                 st.download_button(
-                    "📄 Download PDF Report",
+                    "Download PDF Report",
                     rep["pdf"],
                     file_name="safety_compliance_report.pdf",
                     mime="application/pdf",
@@ -747,7 +758,7 @@ elif page == "📋 Report":
         with d2:
             with st.container(border=True):
                 st.download_button(
-                    "📊 Download CSV Data",
+                    "Download CSV Data",
                     scans.to_csv(index=False),
                     file_name="scans.csv",
                     mime="text/csv",
